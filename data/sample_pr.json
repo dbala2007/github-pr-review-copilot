@@ -1,0 +1,18 @@
+{
+  "pr_number": 12,
+  "title": "Fix Gmail token refresh handling",
+  "body": "This PR updates the Gmail sender to refresh expired tokens before sending mail.",
+  "author": "dbala2007",
+  "base_branch": "main",
+  "head_branch": "fix/gmail-token-refresh",
+  "changed_files": [
+    {
+      "path": "src/gmail_sender.py",
+      "diff": "@@ -10,6 +10,16 @@\n def send_email(to, subject, body):\n+    if creds.expired and creds.refresh_token:\n+        creds.refresh(Request())\n     service.users().messages().send(userId='me', body=message).execute()"
+    },
+    {
+      "path": "src/api.py",
+      "diff": "@@ -45,6 +45,8 @@\n def process_email(payload):\n+    # retry send if token expired\n     return response"
+    }
+  ]
+}
