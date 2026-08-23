@@ -70,7 +70,7 @@ def fetch_pull_request(owner: str, repo: str, pr_number: int | None = None) -> P
     return PullRequestInput(
         pr_number=pr_data["number"],
         title=pr_data["title"],
-        body=pr_data.get("body", ""),
+        body=pr_data.get("body") or "",
         author=pr_data["user"]["login"],
         base_branch=pr_data["base"]["ref"],
         head_branch=pr_data["head"]["ref"],
